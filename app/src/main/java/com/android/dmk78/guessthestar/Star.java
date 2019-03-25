@@ -4,12 +4,12 @@ import android.graphics.Bitmap;
 
 public class Star {
     private String name;
-    private String url;
+
     private Bitmap img;
 
-    public Star(String name, String url, Bitmap img) {
+    public Star(String name, Bitmap img) {
         this.name = name;
-        this.url = url;
+
         this.img = img;
     }
 
@@ -21,13 +21,6 @@ public class Star {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
     public Bitmap getImg() {
         return img;
@@ -35,5 +28,13 @@ public class Star {
 
     public void setImg(Bitmap img) {
         this.img = img;
+    }
+
+    @Override
+    public String toString() {
+        return "Star{" +
+                "name='" + name + '\'' +
+                ", img=" + img +
+                '}';
     }
 }
