@@ -4,12 +4,10 @@ import android.graphics.Bitmap;
 
 public class Star {
     private String name;
+    private String img;
 
-    private Bitmap img;
-
-    public Star(String name, Bitmap img) {
+    public Star(String name, String img) {
         this.name = name;
-
         this.img = img;
     }
 
@@ -21,20 +19,15 @@ public class Star {
         this.name = name;
     }
 
-
-    public Bitmap getImg() {
+    public String getImg() {
         return img;
     }
 
-    public void setImg(Bitmap img) {
+    public void setImg(String img) {
         this.img = img;
     }
 
-    @Override
-    public String toString() {
-        return "Star{" +
-                "name='" + name + '\'' +
-                ", img=" + img +
-                '}';
-    }
+
+
+
 }

@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     Button button3;
     Button button4;
     String guess;
+    Bitmap bitmap;
 
 
     @Override
@@ -68,7 +69,8 @@ public class MainActivity extends AppCompatActivity {
         Matcher matcherName = patternName.matcher(resultUrl);
         String url;
         String name;
-        Bitmap img;
+        String img;
+
         int indexJava; //нахождение подстроки в строке
 
         while (matcherImg.find()) {
@@ -82,21 +84,9 @@ public class MainActivity extends AppCompatActivity {
             if (indexJava != -1) {
                 //  Log.i("Myname", url);
 
-                DownloadImageTask taskImage = new DownloadImageTask();
-                img = null;
-
-                try {
-
-                    img = taskImage.execute(url).get();
-                    //добавляем обьекты в массив
-                    arrayListStars.add(new Star(name, img));
+                arrayListStars.add(new Star(name, url));
 
 
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
         }
 
@@ -115,22 +105,22 @@ randomStar();
     void randomStar(){
 
         int randomStarindex1 = (int) (Math.random() * arrayListStars.size());
-        Bitmap randomTargetImg1 = arrayListStars.get(randomStarindex1).getImg();
+        String randomTargetImg1 = arrayListStars.get(randomStarindex1).getImg();
         String randomTargetName1 = arrayListStars.get(randomStarindex1).getName();
         button1.setText(randomTargetName1);
 
         int randomStarindex2 = (int) (Math.random() * arrayListStars.size());
-        Bitmap randomTargetImg2 = arrayListStars.get(randomStarindex2).getImg();
+        String randomTargetImg2 = arrayListStars.get(randomStarindex2).getImg();
         String randomTargetName2 = arrayListStars.get(randomStarindex2).getName();
         button2.setText(randomTargetName2);
 
         int randomStarindex3 = (int) (Math.random() * arrayListStars.size());
-        Bitmap randomTargetImg3 = arrayListStars.get(randomStarindex3).getImg();
+        String randomTargetImg3 = arrayListStars.get(randomStarindex3).getImg();
         String randomTargetName3 = arrayListStars.get(randomStarindex3).getName();
         button3.setText(randomTargetName3);
 
         int randomStarindex4 = (int) (Math.random() * arrayListStars.size());
-        Bitmap randomTargetImg4 = arrayListStars.get(randomStarindex4).getImg();
+        String  randomTargetImg4 = arrayListStars.get(randomStarindex4).getImg();
         String randomTargetName4 = arrayListStars.get(randomStarindex4).getName();
         button4.setText(randomTargetName4);
 
@@ -139,20 +129,20 @@ randomStar();
 
         switch (randomImgFromButtons){
             case 1:
-                imageView.setImageBitmap(randomTargetImg1);
                 guess=randomTargetName1;
+                imageView.setImageBitmap(downloadImage(randomTargetImg1));
 
                 break;
             case 2:
-                imageView.setImageBitmap(randomTargetImg2);
                 guess=randomTargetName2;
+                imageView.setImageBitmap(downloadImage(randomTargetImg2));
                 break;
             case 3:
-                imageView.setImageBitmap(randomTargetImg3);
+                imageView.setImageBitmap(downloadImage(randomTargetImg3));
                 guess=randomTargetName3;
                 break;
             case 4:
-                imageView.setImageBitmap(randomTargetImg4);
+                imageView.setImageBitmap(downloadImage(randomTargetImg4));
                 guess=randomTargetName4;
                 break;
 
@@ -171,15 +161,36 @@ randomStar();
 
     }
 
+    public Bitmap downloadImage (String url){
+        DownloadImageTask taskImage = new DownloadImageTask();
+        bitmap = null;
+
+        try {
+
+            bitmap = taskImage.execute(url).get();
+            //добавляем обьекты в массив
+
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+        return bitmap;
+
+    }
+
     public void guess(View view) {
 
         Button button = (Button) view;
         String answer = button.getText().toString();
         Log.i("Answer",answer+" : "+guess);
         if (answer==guess){
-            Toast.makeText(getApplicationContext(),"Wonderful!!!!",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Wonderful!!!!",Toast.LENGTH_SHORT).show();
             randomStar();
-        }
+        } else Toast.makeText(this, "Неверное, правильный ответ - "+guess, Toast.LENGTH_SHORT).show();
 
 
 
